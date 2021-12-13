@@ -8,8 +8,6 @@ while numero > 0:
             my_list.append(numero)
             mean = statistics.mean(my_list)
         else:
-            mean = statistics.mean(my_list)
             print('La media de los números introducidos es: ' + str(mean))
     except ValueError:
         print("Eso no es un número")
-   
