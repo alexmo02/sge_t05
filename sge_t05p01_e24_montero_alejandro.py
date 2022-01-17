@@ -37,7 +37,7 @@ while opcionSeleccionada != 7:
             print("Introduce la direccion: ")
             direccion=input()
             print("Introduce el telefono: ")
-            telefono=input()
+            telefono=int(input())
             print("Introduce el correo: ")
             correo=input()
             print("Introduce si es preferente o no: ")
@@ -93,4 +93,4 @@ while opcionSeleccionada != 7:
             print("Introduce un número entre el 1 y el 7: ")
         
     except ValueError: 
-        print("Debes introducir un número entre el 1 y el 7: ")
+        print("No has introducido un número! Debes introducir un número entre el 1 y el 7: ")
