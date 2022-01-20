@@ -1,4 +1,4 @@
-from controlador.SocioModulo import Socio
+from modelo.SocioModulo import Socio
 
 class Evento: 
     def __init__(self, fechaEvento, fechaMaxInscripcion, localidad, provincia, organizador, kmTotales, precio, listadoSociosApuntados: Socio):

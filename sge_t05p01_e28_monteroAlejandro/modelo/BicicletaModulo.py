@@ -1,7 +1,7 @@
-from controlador.ReparacionModulo import Reparacion
+from modelo.ReparacionModulo import Reparacion
 
 
-from controlador.ReparacionModulo import Reparacion
+from modelo.ReparacionModulo import Reparacion
 
 class Bicicleta:
     def __init__(self, fechaCompra, marca, modelo, tipo, color, tamannoCuadro, tamannoRuedas, precio, listaReparaciones: Reparacion):

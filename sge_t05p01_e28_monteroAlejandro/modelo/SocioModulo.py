@@ -1,5 +1,5 @@
-from controlador.UsuarioModulo import Usuario
-from controlador.BicicletaModulo import Bicicleta
+from modelo.UsuarioModulo import Usuario
+from modelo.BicicletaModulo import Bicicleta
 
 class Socio: 
     def __init__(self, usuarioAsociado: Usuario, nombreCompleto, direccion, telefono, correoElectronico, bicicletas: Bicicleta, familia):

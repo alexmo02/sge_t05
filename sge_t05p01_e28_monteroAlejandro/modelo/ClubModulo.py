@@ -1,5 +1,5 @@
-from controlador.SocioModulo import Socio
-from controlador.EventoModulo import Evento
+from modelo.SocioModulo import Socio
+from modelo.EventoModulo import Evento
 
 class Club:
     def __init__(self, nombreClub, cif, sedeSocial, listaSocios: Socio, listaEventos: Evento, saldototal, controlCuotas):
