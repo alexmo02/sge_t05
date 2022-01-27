@@ -1,6 +1,9 @@
 from datetime import date
 
 class VistaUs:
+    def __init__(self, contr): 
+        self._controlador=contr
+
     def inicio(self):
         fdate = date.today().strftime('%d/%m/%Y')
         print("Bienvenido. Hoy es: {}".format(fdate))
