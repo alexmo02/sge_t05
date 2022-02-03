@@ -7,3 +7,7 @@ class Usuario:
         self._corriente_pago=True
 
         #hay que hacer que esté al corriente del pago con un booleano
+    
+    '''def convertirUsuarioAJson(self):
+        dictUsuario = {"dni":self._dni, "contrasenna":self._contrasenna, "ultimoAcceso":self._ultimoAcceso, "esAdmin":self._es_admin}
+        return dictUsuario'''
