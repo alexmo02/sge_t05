@@ -1,0 +1,12 @@
+[
+    {
+        "fechaEvento":"20/04/2019",
+        "fechaMaxInscripcion":"15/04/2019",
+        "localidad":"Valdepeñas",
+        "provincia":"Ciudad Real",
+        "organizador":"MES",
+        "kmTotales":60,
+        "precio":15,
+        "listadoSociosApuntados":["11111111A"]
+    }
+]

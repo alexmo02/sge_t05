@@ -22,6 +22,9 @@ class Club:
     def getUsuario(self, dni):
         return self._diccUsuarios[dni]
 
+    def getSocio(self, dni):
+        return self._diccSocios[dni]
+
     def verificarUsuarioAdmin(self, argumentos):
         if len(argumentos)==6:
             if argumentos[5]=="-A" :

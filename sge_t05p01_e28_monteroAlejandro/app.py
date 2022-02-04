@@ -12,11 +12,11 @@ if __name__ == "__main__":
 
     #Definimos un Club
     club = Club("Los Satanases del Infinero", "11111111D")
-    #Prueba.cargarUsuarios(club)
+    Prueba.cargarUsuarios(club)
     #controlador_ad = ControladorAd(club)
-    argumentos=["app.py","-u", "11111111A", "-p", "admin", "-A"]
+    #argumentos=["app.py","-u", "11111111A", "-p", "admin", "-A"]
     #argumentos=["app.py","-u", "22222222B", "-p", "usuario1"]
-    #argumentos = sys.argv
+    argumentos = sys.argv
     if (club.verificarUsuarioAdmin(argumentos)):
         controlador = ControladorAd(club, argumentos[2], argumentos[4])
     else:

@@ -120,7 +120,7 @@ class VistaAd:
     def insertarPareja(self, dniSocio):
         validado = True
         while validado: 
-            print("Introduce el DNI de la pareja a insertar (tiene que ser socia del club previamente): ")
+            print("Introduce el DNI de la pareja a insertar (tiene que ser socio/a del club previamente): ")
             dniPareja = input()
             validado = self._controlador.comprobarDni(dniPareja)
             if (dniPareja==dniSocio):
@@ -168,12 +168,12 @@ class VistaAd:
         print("Eventos para los próximos días: ")
         for i in listado: 
             print("Fecha: ", i._fechaEvento)
-            print("Fecha maxima inscripción: ",i._fechaMaxInscripcion)
+            print("Fecha Máxima Inscripción: ",i._fechaMaxInscripcion)
             print("Localidad: ", i._localidad)
             print("Provincia: ", i._provincia)
             print("Organización: ", i._organizador)
-            print("KM Totales: ",i._kmTotales)
-            print("Precio: ",i._precio)
+            print("KM Totales: ", i._kmTotales)
+            print("Precio: ", i._precio)
 
 
 

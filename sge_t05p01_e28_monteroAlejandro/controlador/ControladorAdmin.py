@@ -16,6 +16,8 @@ class ControladorAd:
     def inicio(self, usuario, contrasenna):
         Prueba.cargarUsuarios(self._club)
         Prueba.cargarSocios(self._club)
+        Prueba.cargarControlCuotas(self._club)
+        Prueba.cargarEventos(self._club)
       
         respuesta = self._club.verificarUsuarioAd(usuario, contrasenna)
         if(respuesta == 1):
@@ -43,6 +45,12 @@ class ControladorAd:
     def crearSocioUsuario(self, dni, contrasenna, admin, nombreCompleto, direccion, telefono, correo):
         self._club._diccUsuarios[dni] = Usuario (dni, contrasenna, datetime.today().strftime('%Y/%m/%d'), admin)
         self._club._diccSocios[dni] = Socio (self._club.getUsuario(dni), nombreCompleto, direccion, telefono, correo)
+
+        self.agregarControlCuotas(dni)
+
+    def agregarControlCuotas(self, dni):
+        (self._club._controlCuotas[2022])[dni]=[2022, self._club.getSocio(dni), self._club.getUsuario(dni)._corriente_pago, 15, 0, datetime.today().strftime('%Y/%m/%d')]
+
 
     def agregarFamilia(self, opcion, dni):
         if (opcion == 1):
@@ -98,10 +106,10 @@ class ControladorAd:
         else: return True 
 
     def actualizarCuotasAgregarPareja(self, dniSocio, dniPareja):
-        self._club._controlCuotas[int(datetime.today().strftime('Y%'))][dniSocio][4]=10
-        self._club._controlCuotas[int(datetime.today().strftime('Y%'))][dniSocio][3]=15*0,9
-        self._club._controlCuotas[int(datetime.today().strftime('Y%'))][dniPareja][4]=10
-        self._club._controlCuotas[int(datetime.today().strftime('Y%'))][dniPareja][3]=15*0,9
+        self._club._controlCuotas[int(datetime.today().strftime('%Y'))][dniSocio][4]=10
+        self._club._controlCuotas[int(datetime.today().strftime('%Y'))][dniSocio][3]=15*0,9
+        self._club._controlCuotas[int(datetime.today().strftime('%Y'))][dniPareja][4]=10
+        self._club._controlCuotas[int(datetime.today().strftime('%Y'))][dniPareja][3]=15*0,9
 
     def actualizarCuotasAgregarHijos(self, dniSocio, dniPareja, dniHijo): 
         self._club._controlCuotas[int(datetime.today().strftime('%Y'))][dniSocio][4]=30
@@ -110,6 +118,14 @@ class ControladorAd:
         self._club._controlCuotas[int(datetime.today().strftime('%Y'))][dniPareja][3]=15*0,7
         self._club._controlCuotas[int(datetime.today().strftime('%Y'))][dniHijo][4]=30
         self._club._controlCuotas[int(datetime.today().strftime('%Y'))][dniHijo][3]=15*0,7
+
+    def obtenerEventos(self):
+        for i in self._club._listaEventos:
+            listado = []
+            fecha = datetime.today().strftime('%d/%m/%Y')
+            if(datetime.strptime(i._fechaEvento,'%d/%m/%Y'))>(datetime.today().strptime(fecha, '%d/%m/%Y')):
+                listado.append(i)
+        return listado
 
     def controlOpciones(self,opc):
         if (opc == 0):
@@ -120,6 +136,9 @@ class ControladorAd:
             self._vistaAd.insertarSocioUsuario()
         elif (opc == 3):
             self._vistaAd.insertarFamiliar()
+        elif (opc == 4):
+            listado = self.obtenerEventos()
+            self._vistaAd.muestraEventos(listado)
 
     '''def cargarSocios(club : Club):
         #self._listaSocios = {'11111111A' : Usuario ("admin", "C/admin", 666777888, "admin@gmail.com")}

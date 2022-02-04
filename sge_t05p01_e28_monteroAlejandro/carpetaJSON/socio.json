@@ -1,5 +1,16 @@
 [
     {
-        
+        "usuarioAsociado":"",
+        "nombreCompleto":"",
+        "direccion":"",
+        "telefono":"",
+        "correoElectronico":"",
+        "bicicletas":null,
+        "familia":
+        {
+            "Pareja":null,
+            "Hijos":[],
+            "Padres":[]
+        }
     }
 ]
