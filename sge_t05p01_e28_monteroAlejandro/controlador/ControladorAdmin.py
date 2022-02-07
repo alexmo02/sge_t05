@@ -5,6 +5,7 @@ from vista.VistaAdmin import VistaAd
 from modelo.ClubModulo import Club
 from modelo.PersistenciaJSON import Persistencia
 from modelo.SocioModulo import Socio
+from modelo.EventoModulo import Evento
 from datetime import datetime
 
 class ControladorAd:
@@ -127,6 +128,52 @@ class ControladorAd:
                 listado.append(i)
         return listado
 
+    def realizarBusquedaEventos(self, fecha):
+        listado = []
+        for i in self._club._listaEventos:
+            if(datetime.strptime(i._fechaEvento, '%d/%m/%Y'))==(datetime.strptime(fecha,'%d/%m/%Y')):
+                listado.append(i)
+        return listado
+    
+    def creaEventos(self, fechaInicio, fechaInscrip, lugar, provincia, organizacion, distancia, precio, socios): 
+        self._club._listaEventos.append(Evento(fechaInicio, fechaInscrip, lugar, provincia, organizacion, distancia, precio, socios))
+
+    def obtenerCuota(self, anno):
+        try: 
+            return self._club._controlCuotas[anno]
+        except:
+            return ""
+
+    def compruebaCuotas(self):
+        anno = int(datetime.today().strftime('%Y'))
+        try: 
+            datos=self._club._controlCuotas[anno]
+            return True 
+        except:
+            return False
+
+    def creaControlCuota(self):
+        anno = int(datetime.today().strftime('%Y'))
+        controlCuota = self._club._controlCuotas[anno - 1]
+        self._club._controlCuotas[anno] = controlCuota
+        for dni in self._club._controlCuotas[anno]:
+            self._club._controlCuotas[anno][dni][2] = False
+    
+    def comprobacionPagado(self, dni):
+        anno = int(datetime.today().strftime('%Y'))
+        if self._club._controlCuotas[anno][dni][2]:
+            return True
+        else: return False
+
+    def cantidadAPagar(self, dni):
+        anno = int(datetime.today().strftime('%Y'))
+        return self._club._controlCuotas[anno][dni][3]
+
+    def realizarPagoCuota(self, dni):
+        anno = int(datetime.today().strftime('%Y'))
+        self._club.getUsuario(dni)._corriente_pago = True
+        self._club._controlCuotas[anno][dni][2] = self._club.getUsuario(dni)._corriente_pago
+
     def controlOpciones(self,opc):
         if (opc == 0):
             self._vistaAd.salir()
@@ -139,7 +186,24 @@ class ControladorAd:
         elif (opc == 4):
             listado = self.obtenerEventos()
             self._vistaAd.muestraEventos(listado)
-
+        elif (opc == 5):
+            self._vistaAd.solicitarFechaEvento()
+        elif (opc == 6):
+            self._vistaAd.solicitarInfoEvento()
+        elif (opc == 7):
+            anno = self._vistaAd.solicitarAnnoContrCuotas()
+            cuotas = self.obtenerCuota(anno)
+            self._vistaAd.muestraControlCuotas(cuotas)
+        elif (opc == 8):
+            existe = self.compruebaCuotas()
+            if existe: 
+                self._vistaAd.muestraMensaje("Ya hay un control de cuotas para este año")
+            else: 
+                self.creaControlCuota()
+                self._vistaAd.muestraMensaje("Se ha creado el control de cuotas para ese año con los datos correspondientes")
+        elif (opc == 9):
+            self._vistaAd.solicitarPagoCuota()
+            
     '''def cargarSocios(club : Club):
         #self._listaSocios = {'11111111A' : Usuario ("admin", "C/admin", 666777888, "admin@gmail.com")}
         #def __init__(self, usuarioAsociado: Usuario, nombreCompleto, direccion, telefono, correoElectronico, bicicletas: Bicicleta, familia):

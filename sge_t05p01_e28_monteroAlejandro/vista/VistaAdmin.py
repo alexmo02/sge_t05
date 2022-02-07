@@ -1,5 +1,6 @@
 from datetime import date
-
+from datetime import datetime
+from time import strptime
 class VistaAd:
     def __init__(self, contr): 
         self._controlador=contr
@@ -174,6 +175,119 @@ class VistaAd:
             print("Organización: ", i._organizador)
             print("KM Totales: ", i._kmTotales)
             print("Precio: ", i._precio)
+
+    def solicitarFechaEvento(self):
+        validado = True
+        while validado: 
+            try: 
+                print("Introduce la fecha del Evento con formato -> (dia/mes/año - dd/mm/yyyy)")
+                fechaEvento = input()
+                dato = datetime.strptime(fechaEvento, '%d/%m/%Y')
+                validado = False
+            except:
+                print("Has introducido la fecha en formato incorrecto, por favor intentalo de nuevo")
+        eventoABuscar = self._controlador.realizarBusquedaEventos(fechaEvento)
+        for i in eventoABuscar: 
+            print("Fecha: ", i._fechaEvento)
+            print("Fecha Máxima Inscripción: ",i._fechaMaxInscripcion)
+            print("Localidad: ", i._localidad)
+            print("Provincia: ", i._provincia)
+            print("Organización: ", i._organizador)
+            print("KM Totales: ", i._kmTotales)
+            print("Precio: ", i._precio)
+            print("Socios: ")
+            for j in i._listadoSociosApuntados:
+                print("DNI: ", j)
+            print("-------------------------------------")
+    
+    def solicitarInfoEvento(self): 
+        validado = True
+        while validado: 
+            try: 
+                print("Introduce la fecha en la que se inicia el evento con formato -> (dia/mes/año - dd/mm/yyyy)")
+                fechaInicio = input()
+                dato = datetime.strptime(fechaInicio, '%d/%m/%Y')
+                validado = False
+            except: 
+                print("Has introducido la fecha en formato incorrecto, por favor intentalo de nuevo")
+        validado = True
+        while validado: 
+            try: 
+                print("Introduce la fecha máxima de inscripción para el vento con formato -> (dia/mes/año - dd/mm/yyyy)")
+                fechaMaxInscripcion = input()
+                dato = datetime.strptime(fechaMaxInscripcion, '%d/%m/%Y')
+                if(datetime.strptime(fechaInicio,'%d/%m/%Y'))>=(datetime.strptime(fechaMaxInscripcion, '%d/%m/%Y')):
+                    validado = False
+                else:
+                    print("La fecha máxima de inscripción no puede ser posterior a la fecha del evento, introduce una fecha anterior")
+            except:
+                print("Has introducido la fecha en formato incorrecto, por favor intentalo de nuevo")
+        print("Introduce donde tendrá lugar el evento: ")
+        lugar = input()
+        print("Introduce la provincia donde tendrá lugar el evento: ")
+        provincia = input()
+        print("Introduce la organización del evento: ")
+        organizacion = input()
+        print("Introduce la distancia a recorrer: ")
+        distancia = int(input())
+        print("Introduce el precio de la inscripción: ")
+        precio = int(input())
+        sociosEvento = []
+        self._controlador.creaEventos(fechaInicio, fechaMaxInscripcion, lugar, provincia, organizacion, distancia, precio, sociosEvento)
+        print("Se ha añadido el Evento!")
+
+    def solicitarAnnoContrCuotas(self):
+        validado = True
+        while validado:
+            print("Introduce el año del que quieres obtener información: ")
+            try: 
+                anno = int(input())
+                validado = False
+            except: 
+                print("Introduce un año correcto")
+        return anno
+
+    def muestraControlCuotas(self, cuotas):
+        try: 
+            print("CONTROL DE CUOTAS")
+            print("DNI      AÑO     NOMBRE          PAGADO      PRECIO          DESCUENTO       FECHA PAGO")
+            for dni, datos in cuotas.items():
+                if (datos[2]==False):
+                    print("{:<12} {:<7} {:<20} {:<8} {:<15} {:<10}{:<10}".format(dni, datos[0], datos[1]._nombreCompleto, "No" , datos[3], datos[4], datos[5]))
+            for dni, datos in cuotas.items():
+                if (datos[2]==True):
+                    print("{:<12} {:<7} {:<20} {:<8} {:<15} {:<10} {:<10}".format(dni, datos[0], datos[1]._nombreCompleto, "Si" , datos[3], datos[4], datos[5]))
+        except:
+            print("No hay datos de dicho año")
+
+    def muestraMensaje(self, string):
+        print(string)
+
+    def solicitarPagoCuota(self):
+        validado = True
+        while validado:
+            print("Introduce el DNI del usuario a pagar su cuota: ")
+            dni = input()
+            validado = self._controlador.comprobarDni(dni)
+            if not validado:
+                validado = False 
+            else: 
+                print("No existe ese usuario")
+        usuarioExiste = self._controlador.compruebaCuotas()
+        if usuarioExiste:
+            self.muestraMensaje("Ya hay un control de cuotas para este año")
+        else: 
+            self._controlador.creaControlCuota()
+            self.muestraMensaje("Se ha creado el control de cuotas para ese año con los datos correspondientes")
+        cuotaPagada = self._controlador.comprobacionPagado(dni)
+        if cuotaPagada:
+            print("El usuario ya ha pagado la cuota")
+        else: 
+            print("Se lleva a cabo el pago")
+            print("Debe pagar: ", self._controlador.cantidadAPagar(dni))
+            print("Pago realizado!")
+            self._controlador.realizarPagoCuota(dni)
+
 
 
 

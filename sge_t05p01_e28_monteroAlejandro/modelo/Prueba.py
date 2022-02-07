@@ -18,8 +18,8 @@ class Prueba:
         datos_año=({'11111111A' : [2022, club.getSocio('11111111A'), club.getUsuario('11111111A')._corriente_pago, 15, 0, "27-01-2022" ],
         '22222222B' : [2022, club.getSocio('22222222B'), club.getUsuario('22222222B')._corriente_pago, 15, 0, "27-01-2022" ]
         })
-        club._controlCuotas=({2022: datos_año,
-                                2023:None})
+        club._controlCuotas=({2022: datos_año})
+        
     def cargarEventos(club : Club): 
-        eventos=[Evento('20/04/2019', '15/04/2019', "Valdepeñas", "Ciudad Real", "MES", 60, 15, ['11111111A']), Evento('20/04/2022', '15/04/2022', "Membrilla", "Ciudad Real", "ORP", 100, 5, ['11111111A', '12123123X'] )]
+        eventos=[Evento('25/04/2019', '20/04/2019', "Torrenueva", "Ciudad Real", "TNV", 50, 25, ['11111111A']), Evento('12/03/2022', '10/03/2022', "Martos", "Jaén", "MRT", 5, 1, ['11111111A', '22222222B'] )]
         club._listaEventos=eventos
