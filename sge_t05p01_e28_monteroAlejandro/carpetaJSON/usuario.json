@@ -3,6 +3,7 @@
         "dni":"11111111A",
         "contrasenna":"admin",
         "ultimoAcceso":null,
-        "esAdmin":true
+        "esAdmin":true,
+        "corriente_pago":true
     }
 ]

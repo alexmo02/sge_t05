@@ -250,7 +250,7 @@ class VistaAd:
     def muestraControlCuotas(self, cuotas):
         try: 
             print("CONTROL DE CUOTAS")
-            print("DNI      AÑO     NOMBRE          PAGADO      PRECIO          DESCUENTO       FECHA PAGO")
+            print("DNI            AÑO      NOMBRE          PAGADO    PRECIO          DESCUENTO    FECHA PAGO")
             for dni, datos in cuotas.items():
                 if (datos[2]==False):
                     print("{:<12} {:<7} {:<20} {:<8} {:<15} {:<10}{:<10}".format(dni, datos[0], datos[1]._nombreCompleto, "No" , datos[3], datos[4], datos[5]))

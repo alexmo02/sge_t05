@@ -9,4 +9,11 @@ class Persistencia:
         print(fileData)
         fp.close()
         return fileData
+
+    def writeJSON(d:dict,filename):
+        with open(filename, "r+") as file:
+            data = json.load(file)
+            data.append(d)
+            file.seek(0)
+            json.dump(data, file,indent=4)
         

@@ -11,8 +11,8 @@ class Prueba:
         '22222222B' : Socio (club.getUsuario('22222222B'), 'Pepito López', 'c/direccion2', 666777999, "pepito@gmail.com")})
 
     def cargarUsuarios(club : Club):
-        club.asignarListaUsuarios( {'11111111A' : Usuario ('11111111A','admin', '24/01/2022', True), 
-                                '22222222B' : Usuario ('22222222B', 'usuario1', '23/01/2022', False)})
+        club.asignarListaUsuarios( {'11111111A' : Usuario ('11111111A','admin', '24/01/2022', True, True), 
+                                '22222222B' : Usuario ('22222222B', 'usuario1', '23/01/2022', False, False)})
 
     def cargarControlCuotas(club : Club):
         datos_año=({'11111111A' : [2022, club.getSocio('11111111A'), club.getUsuario('11111111A')._corriente_pago, 15, 0, "27-01-2022" ],
@@ -21,5 +21,5 @@ class Prueba:
         club._controlCuotas=({2022: datos_año})
         
     def cargarEventos(club : Club): 
-        eventos=[Evento('25/04/2019', '20/04/2019', "Torrenueva", "Ciudad Real", "TNV", 50, 25, ['11111111A']), Evento('12/03/2022', '10/03/2022', "Martos", "Jaén", "MRT", 5, 1, ['11111111A', '22222222B'] )]
+        eventos=[Evento('25/04/2023', '20/04/2023', "Torrenueva", "Ciudad Real", "TNV", 50, 25, ['22222222B']), Evento('12/03/2022', '10/03/2022', "Martos", "Jaén", "MRT", 5, 1, ['11111111A', '22222222B'] )]
         club._listaEventos=eventos
