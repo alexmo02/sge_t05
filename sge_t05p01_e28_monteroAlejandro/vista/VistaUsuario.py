@@ -17,7 +17,7 @@ class VistaUs:
                 self.salir
 
     def mostrarMenu(self, usuario):
-        print("Menú:") 
+        print("\nMenú:") 
         print("====")
         print("1. Ver mis próximos eventos y la lista de inscritos")
         print("2. Ver y apuntarme a eventos abiertos")
@@ -49,23 +49,8 @@ class VistaUs:
         quit()
 
     def mostrarMisProxEventos(self, listado):
-        print("Tus eventos para los próximos días son: ")
-        for i in listado: 
-            print("Fecha: ", i._fechaEvento)
-            print("Fecha Máxima Inscripción: ",i._fechaMaxInscripcion)
-            print("Localidad: ", i._localidad)
-            print("Provincia: ", i._provincia)
-            print("Organización: ", i._organizador)
-            print("KM Totales: ", i._kmTotales)
-            print("Precio: ", i._precio)
-            print("Socios Apuntados: ")
-            for j in i._listadoSociosApuntados:
-                print("DNI: ", j)
-            print("-------------------------------------")
-
-    '''def verApuntarEvento(self, listado):
-        print("Los eventos disponibles actualmente son: ")
-        while(len(listado)>0):
+        if(len(listado)>0):
+            print("Tus eventos para los próximos días son: ")
             for i in listado: 
                 print("Fecha: ", i._fechaEvento)
                 print("Fecha Máxima Inscripción: ",i._fechaMaxInscripcion)
@@ -74,25 +59,53 @@ class VistaUs:
                 print("Organización: ", i._organizador)
                 print("KM Totales: ", i._kmTotales)
                 print("Precio: ", i._precio)
-            print("¿Deseas apuntarte a este evento (si/no)?")
-            respuesta=input()
-            if(respuesta.lower=="si"): 
-                respuesta=True
-            else: 
-                respuesta=False'''
+                print("Socios Apuntados: ")
+                for j in i._listadoSociosApuntados:
+                    print("DNI: ", j)
+                print("-------------------------------------")
+        else: 
+            print("No Tienes Eventos para los próximos días")
+
+    def verApuntarEvento(self, listado, usuario):
+        if(len(listado)>0):
+            print("Los eventos disponibles actualmente son: ")
+            e = 0
+            while(len(listado)>0):
+                if(e==len(listado)):
+                    break
+                for i in listado: 
+                    print("Fecha: ", i._fechaEvento)
+                    print("Fecha Máxima Inscripción: ",i._fechaMaxInscripcion)
+                    print("Localidad: ", i._localidad)
+                    print("Provincia: ", i._provincia)
+                    print("Organización: ", i._organizador)
+                    print("KM Totales: ", i._kmTotales)
+                    print("Precio: ", i._precio)
+                    print("¿Deseas apuntarte a este evento (si/no)?")
+                    respuesta=input()
+                    if(respuesta.lower=="si"): 
+                        self._controlador.apuntarSocioEvento(usuario, e)
+                        respuesta=True
+                    e+=1
+        else:
+            print("No hay eventos disponibles")
+
 
     def mostrarBicicletas(self, listado):
-        print("Tus bicicletas son: ")
-        for i in listado: 
-            print("Fecha Compra: ", i._fechaCompra)
-            print("Marca: ", i._marca)
-            print("Modelo: ", i._modelo)
-            print("Tipo: ", i._tipo)
-            print("Color: ", i._color)
-            print("Tamaño Cuadro: ", i._tamannoCuadro)
-            print("Tamaño Ruedas: ", i._tamannoRuedas)
-            print("Precio: ", i._precio)
-            print("-------------------------------------")
+        if(len(listado)>0):
+            print("Tus bicicletas son: ")
+            for i in listado: 
+                print("Fecha Compra: ", i._fechaCompra)
+                print("Marca: ", i._marca)
+                print("Modelo: ", i._modelo)
+                print("Tipo: ", i._tipo)
+                print("Color: ", i._color)
+                print("Tamaño Cuadro: ", i._tamannoCuadro)
+                print("Tamaño Ruedas: ", i._tamannoRuedas)
+                print("Precio: ", i._precio)
+                print("-------------------------------------")
+        else: 
+            print("No tienes bicicletas disponibles")
 
 
 

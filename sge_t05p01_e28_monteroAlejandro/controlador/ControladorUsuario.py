@@ -16,11 +16,12 @@ class ControladorUs:
         #Prueba.cargarBicicletas(self._club._diccSocios[usuario])
 
         if(self._club.verificarUsuarioUs(usuario, contrasenna)):
-            self._vistaUs.mostrarMenu(usuario)
+            while True: 
+                self._vistaUs.mostrarMenu(usuario)
         else:
             self._vistaUs.mostrarError("El usuario y la contraseña no existen")
 
-    def obtenerEventos(self, usuario):
+    def obtenerEventosUsuario(self, usuario):
         listado = []
         for i in self._club._listaEventos:
             fecha = datetime.today().strftime('%d/%m/%Y')
@@ -30,8 +31,18 @@ class ControladorUs:
                         listado.append(i)
         return listado
 
-    #algo para el segundo apartado
+    def obtenerEventosParaTodos(self):
+        listado = []
+        for i in self._club._listaEventos:
+            fecha = datetime.today().strftime('%d/%m/%Y')
+            if(datetime.strptime(i._fechaEvento,'%d/%m/%Y'))>(datetime.today().strptime(fecha, '%d/%m/%Y')):
+                listado.append(i)
+        return listado
 
+    #algo para el segundo apartado
+    def apuntarSocioEvento(self, usuario, posicion):
+        self._club._listaEventos[posicion]._listadoSociosApuntados.append(usuario)
+        
     def obtenerBicicletas(self, usuario):
         listadoBicicletas = []
         for i in self._club._diccSocios[usuario]._bicicletas:
@@ -43,8 +54,11 @@ class ControladorUs:
         if (opc == 0):
             self._vistaUs.salir()
         elif (opc == 1):
-            listado = self.obtenerEventos(usuario)
+            listado = self.obtenerEventosUsuario(usuario)
             self._vistaUs.mostrarMisProxEventos(listado)
+        elif (opc == 2):
+            listado = self.obtenerEventosParaTodos()
+            self._vistaUs.verApuntarEvento(listado, usuario)
         elif (opc == 3):
             listado = self.obtenerBicicletas(usuario)
             self._vistaUs.mostrarBicicletas(listado)
