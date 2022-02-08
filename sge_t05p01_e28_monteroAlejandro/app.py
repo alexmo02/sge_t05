@@ -1,8 +1,6 @@
-from ast import arg
+
 import sys
 
-from vista.VistaAdmin import VistaAd
-from vista.VistaUsuario import VistaUs
 from modelo.ClubModulo import Club
 from modelo.Prueba import Prueba
 from controlador.ControladorAdmin import ControladorAd
@@ -15,8 +13,8 @@ if __name__ == "__main__":
     Prueba.cargarUsuarios(club)
     #controlador_ad = ControladorAd(club)
     #argumentos=["app.py","-u", "11111111A", "-p", "admin", "-A"]
-    argumentos=["app.py","-u", "22222222B", "-p", "usuario1"]
-    #argumentos = sys.argv
+    #argumentos=["app.py","-u", "22222222B", "-p", "usuario1"]
+    argumentos = sys.argv
     if (club.verificarUsuarioAdmin(argumentos)):
         controlador = ControladorAd(club, argumentos[2], argumentos[4])
     else:

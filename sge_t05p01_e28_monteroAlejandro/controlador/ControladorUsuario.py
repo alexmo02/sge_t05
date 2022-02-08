@@ -13,6 +13,8 @@ class ControladorUs:
         Prueba.cargarUsuarios(self._club)
         Prueba.cargarSocios(self._club)
         Prueba.cargarEventos(self._club)
+        #Prueba.cargarBicicletas(self._club._diccSocios[usuario])
+
         if(self._club.verificarUsuarioUs(usuario, contrasenna)):
             self._vistaUs.mostrarMenu(usuario)
         else:
@@ -28,12 +30,24 @@ class ControladorUs:
                         listado.append(i)
         return listado
 
+    #algo para el segundo apartado
+
+    def obtenerBicicletas(self, usuario):
+        listadoBicicletas = []
+        for i in self._club._diccSocios[usuario]._bicicletas:
+            listadoBicicletas.append(i)
+        return listadoBicicletas
+
+
     def controlOpciones(self,opc, usuario):
         if (opc == 0):
             self._vistaUs.salir()
         elif (opc == 1):
             listado = self.obtenerEventos(usuario)
             self._vistaUs.mostrarMisProxEventos(listado)
+        elif (opc == 3):
+            listado = self.obtenerBicicletas(usuario)
+            self._vistaUs.mostrarBicicletas(listado)
  
 
     '''def realizarBusquedaUsuario(self, usuario):

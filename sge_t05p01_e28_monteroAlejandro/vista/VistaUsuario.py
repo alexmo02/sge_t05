@@ -63,7 +63,7 @@ class VistaUs:
                 print("DNI: ", j)
             print("-------------------------------------")
 
-    def verApuntarEvento(self, listado):
+    '''def verApuntarEvento(self, listado):
         print("Los eventos disponibles actualmente son: ")
         while(len(listado)>0):
             for i in listado: 
@@ -79,7 +79,20 @@ class VistaUs:
             if(respuesta.lower=="si"): 
                 respuesta=True
             else: 
-                respuesta=False
+                respuesta=False'''
+
+    def mostrarBicicletas(self, listado):
+        print("Tus bicicletas son: ")
+        for i in listado: 
+            print("Fecha Compra: ", i._fechaCompra)
+            print("Marca: ", i._marca)
+            print("Modelo: ", i._modelo)
+            print("Tipo: ", i._tipo)
+            print("Color: ", i._color)
+            print("Tamaño Cuadro: ", i._tamannoCuadro)
+            print("Tamaño Ruedas: ", i._tamannoRuedas)
+            print("Precio: ", i._precio)
+            print("-------------------------------------")
 
 
 
