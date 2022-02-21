@@ -78,7 +78,7 @@ class VistaAd:
         contrasenna=input()
         print("Admin ¿SI/NO?")
         admin=input()
-        if (admin.lower=="si"):
+        if (admin.lower()=="si"):
             admin=True
         else: admin=False
         print("Introduce el nombre completo del socio: ")
@@ -247,16 +247,16 @@ class VistaAd:
                 print("Introduce un año correcto")
         return anno
 
-    def muestraControlCuotas(self, cuotas):
+    def muestraControlCuotas(self, cuotas, club):
         try: 
             print("CONTROL DE CUOTAS")
             print("DNI            AÑO      NOMBRE          PAGADO    PRECIO          DESCUENTO    FECHA PAGO")
             for dni, datos in cuotas.items():
                 if (datos[2]==False):
-                    print("{:<12} {:<7} {:<20} {:<8} {:<15} {:<10}{:<10}".format(dni, datos[0], datos[1]._nombreCompleto, "No" , datos[3], datos[4], datos[5]))
+                    print("{:<12} {:<7} {:<20} {:<8} {:<15} {:<10}{:<10}".format(dni, datos[0], club.getSocio(datos[1])._nombreCompleto, "No" , datos[3], datos[4], datos[5]))
             for dni, datos in cuotas.items():
                 if (datos[2]==True):
-                    print("{:<12} {:<7} {:<20} {:<8} {:<15} {:<10} {:<10}".format(dni, datos[0], datos[1]._nombreCompleto, "Si" , datos[3], datos[4], datos[5]))
+                    print("{:<12} {:<7} {:<20} {:<8} {:<15} {:<10} {:<10}".format(dni, datos[0], club.getSocio(datos[1])._nombreCompleto, "Si" , datos[3], datos[4], datos[5]))
         except:
             print("No hay datos de dicho año")
 

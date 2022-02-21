@@ -69,9 +69,9 @@ class VistaUs:
     def verApuntarEvento(self, listado, usuario):
         if(len(listado)>0):
             print("Los eventos disponibles actualmente son: ")
-            e = 0
+            j = 0
             while(len(listado)>0):
-                if(e==len(listado)):
+                if(j==len(listado)):
                     break
                 for i in listado: 
                     print("Fecha: ", i._fechaEvento)
@@ -83,10 +83,14 @@ class VistaUs:
                     print("Precio: ", i._precio)
                     print("¿Deseas apuntarte a este evento (si/no)?")
                     respuesta=input()
-                    if(respuesta.lower=="si"): 
-                        self._controlador.apuntarSocioEvento(usuario, e)
+                    if(respuesta.lower()=="si"): 
+                        if(self._controlador.controlarSociosApuntados(usuario, j, listado)):
+                            print("Ya te has apuntado a este evento anteriormente")
+                        else: 
+                            self._controlador.apuntarSocioEvento(usuario, j, listado)
+                            print("Te has apuntado correctamente al evento")
                         respuesta=True
-                    e+=1
+                    j+=1
         else:
             print("No hay eventos disponibles")
 
@@ -94,6 +98,7 @@ class VistaUs:
     def mostrarBicicletas(self, listado):
         if(len(listado)>0):
             print("Tus bicicletas son: ")
+            print()
             for i in listado: 
                 print("Fecha Compra: ", i._fechaCompra)
                 print("Marca: ", i._marca)
@@ -107,6 +112,18 @@ class VistaUs:
         else: 
             print("No tienes bicicletas disponibles")
 
+    def mostrarReparaciones(self, listado):
+        if(len(listado)>0):
+            print("Tus reparaciones/mantenimientos son: ")
+            print()
+            for i in listado: 
+                print("Fecha: ", i._fecha)
+                print("Coste: ", i._coste)
+                print("Descripción: ", i._descripcion)
+                print("Categoria: ", i._categoria)
+                print("-------------------------------------")
+        else: 
+            print("No tienes bicicletas disponibles")
 
 
 

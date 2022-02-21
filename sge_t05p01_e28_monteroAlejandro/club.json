@@ -1,0 +1,31 @@
+[
+  {
+    "_nombreClub": "Los Satanases del Infinero",
+    "_cif": "11111111D",
+    "_sedeSocial": null,
+    "_diccSocios": {},
+    "_listaEventos": [],
+    "_saldoTotal": 0,
+    "_controlCuotas": {
+      "2022": {
+        "11111111A": [
+          2022,
+          "11111111A",
+          true,
+          15,
+          0,
+          "27-01-2022"
+        ],
+        "22222222B": [
+          2022,
+          "22222222B",
+          false,
+          15,
+          0,
+          "27-01-2022"
+        ]
+      }
+    },
+    "_diccUsuarios": {}
+  }
+]

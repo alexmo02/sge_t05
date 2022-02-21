@@ -1,0 +1,78 @@
+[
+  {
+    "_usuarioAsociado": "11111111A",
+    "_nombreCompleto": "Alejandro Montero",
+    "_direccion": "c/direccion1",
+    "_telefono": 666777888,
+    "_correoElectronico": "alejandro@gmail.com",
+    "_bicicletas": [],
+    "_familia": {
+      "Pareja": null,
+      "Hijos": [],
+      "Padres": []
+    }
+  },
+  {
+    "_usuarioAsociado": "22222222B",
+    "_nombreCompleto": "Pepito L\u00f3pez",
+    "_direccion": "c/direccion2",
+    "_telefono": 666777999,
+    "_correoElectronico": "pepito@gmail.com",
+    "_bicicletas": [
+      {
+        "_fechaCompra": "30/05/2020",
+        "_marca": "Canondale",
+        "_modelo": "Modelo1",
+        "_tipo": "Monta\u00f1a",
+        "_color": "Negro",
+        "_tamannoCuadro": 5,
+        "_tamannoRuedas": 27,
+        "_precio": 600,
+        "_listaReparaciones": [
+          {
+            "_fecha": "30/05/2021",
+            "_coste": 120,
+            "_descripcion": "Cambio de manillar",
+            "_categoria": "delantera"
+          }
+        ]
+      },
+      {
+        "_fechaCompra": "26/06/2020",
+        "_marca": "Trek",
+        "_modelo": "Modelo2",
+        "_tipo": "Carretera",
+        "_color": "Azul",
+        "_tamannoCuadro": 6,
+        "_tamannoRuedas": 29,
+        "_precio": 700,
+        "_listaReparaciones": [
+          {
+            "_fecha": "30/05/2021",
+            "_coste": 120,
+            "_descripcion": "Cambio de manillar",
+            "_categoria": "delantera"
+          }
+        ]
+      }
+    ],
+    "_familia": {
+      "Pareja": null,
+      "Hijos": [],
+      "Padres": []
+    }
+  },
+  {
+    "_usuarioAsociado": "33333333C",
+    "_nombreCompleto": "Laura G\u00f3mez",
+    "_direccion": "c/direccion2",
+    "_telefono": 666777999,
+    "_correoElectronico": "pepito@gmail.com",
+    "_bicicletas": [],
+    "_familia": {
+      "Pareja": null,
+      "Hijos": [],
+      "Padres": []
+    }
+  }
+]

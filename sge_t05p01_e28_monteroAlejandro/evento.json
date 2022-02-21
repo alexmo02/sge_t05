@@ -1,0 +1,26 @@
+[
+  {
+    "_fechaEvento": "25/04/2023",
+    "_fechaMaxInscripcion": "20/04/2023",
+    "_localidad": "Torrenueva",
+    "_provincia": "Ciudad Real",
+    "_organizador": "TNV",
+    "_kmTotales": 50,
+    "_precio": 25,
+    "_listadoSociosApuntados": [
+      "22222222B"
+    ]
+  },
+  {
+    "_fechaEvento": "12/03/2022",
+    "_fechaMaxInscripcion": "10/03/2022",
+    "_localidad": "Martos",
+    "_provincia": "Ja\u00e9n",
+    "_organizador": "MRT",
+    "_kmTotales": 5,
+    "_precio": 1,
+    "_listadoSociosApuntados": [
+      "11111111A"
+    ]
+  }
+]
