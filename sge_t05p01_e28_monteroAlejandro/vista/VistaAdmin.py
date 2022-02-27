@@ -17,7 +17,7 @@ class VistaAd:
         finally:
                 self.salir
 
-    def mostrarMenu(self, usuario):
+    def mostrarMenu(self, usuario, fecha):
         print("")
         print("************************************************")
         print("*              LOS SATANASES DEL               *")
@@ -25,7 +25,7 @@ class VistaAd:
         print("************************************************")
         print("*            Zona de administración            *")
         print("*                Usuario:",usuario,"           *")
-        print("*                Último acc.:                  *")
+        print("*                Último acc.:",fecha,"      *")
         print("************************************************")
         print("")
         print("Menú:") 
@@ -40,16 +40,17 @@ class VistaAd:
         print("8. Actualizar el control de cuotas")
         print("9. Realizar el control de cuotas")
         print("0. Salir.")
-        self.leerOpcionMenu()
+        self.leerOpcionMenu(usuario)
 
-    def leerOpcionMenu(self):
+    def leerOpcionMenu(self, usuario):
+        opc=0
         try:
             opc=int(input("Deme una opción: "))
         except:
             raise Exception("Debes introducir un número entero.")
 
         if (opc >=0 and opc <=9):
-            self._controlador.controlOpciones(opc)
+            self._controlador.controlOpciones(opc, usuario)
         else:
             raise Exception("Debes introducir un número entero entre 0 y 9.")
 
@@ -65,7 +66,9 @@ class VistaAd:
         res1 = sorted(lista_socios, key = lambda s: s.casefold())
         for nombre in res1:
             print("+", nombre)
-    
+        print("Pulsa INTRO cuando desees continuar!")
+        input()
+
     def insertarSocioUsuario(self):
         validado=False
         while not validado:
@@ -90,6 +93,8 @@ class VistaAd:
         print("Introduce el correo electrónico del usuario: ")
         correo=input()
         self._controlador.crearSocioUsuario(dni, contrasenna, admin, nombreCompleto, direccion, telefono, correo)
+        print("Pulsa INTRO cuando desees continuar!")
+        input()
 
     def insertarFamiliar(self):
         validado=True
@@ -109,14 +114,16 @@ class VistaAd:
         if (opcion >=1 and opcion  <= 3):
             respuesta = self._controlador.agregarFamilia(opcion, dniSocio)
             if respuesta==1:
-                print("Este usuario ya tiene una pareja asignada")
+                print("Este usuario ya tiene pareja/padres asignados")
             if respuesta==2:
                 print("Primero debes asignar una pareja a este cliente")
             if respuesta==3:
                 print("El usuario ya tiene dos hijos asociados")
             if respuesta==4:
-                print("El usuario ya tiene padres asociados")
+                print("Este usuario ya tiene pareja/padres asignados")
         else:print("Introduce un número entero entre 0 y 9.")
+        print("Pulsa INTRO cuando desees continuar!")
+        input()
 
     def insertarPareja(self, dniSocio):
         validado = True
@@ -138,13 +145,14 @@ class VistaAd:
             dniHijo = input()
             validado = self._controlador.comprobarDni(dniHijo)
             if (dniHijo==dniSocio):
-                print("No puedes ser tu propio hijo: ")
+                print("No puedes ser tu propio hijo")
                 validado = True
             elif (self._controlador.comprobarPadres(dniHijo)):
                 print("Ya tienes unos padres asociados")
             if not validado: 
                 validado = False
         self._controlador.agregarHijo(dniSocio, dniHijo)
+        
 
     def insertarPadres(self, dniUsuario):
         validado = True
@@ -156,15 +164,13 @@ class VistaAd:
                 if (dniPareja == dniUsuario):
                     print("No puedes ser tu propio padre")
                     validado = True
-                elif(self._controlador.comprobarPareja(dniPareja)):
-                    print("No tienes pareja, por tanto no es válido")
+                if(self._controlador.comprobarPadre(dniPareja, dniUsuario)):
+                    print("No puedes tener más de 2 padres")
                     validado = True
-                elif(self._controlador.comprobarHijos(dniPareja)):
-                    print("Ya tienes 2 hijos asociados")
-                if not validado:
+                else: 
                     validado = False
             self._controlador.agregarPadres(dniUsuario, dniPareja)
-
+        
     def muestraEventos(self, listado):
         print("Eventos para los próximos días: ")
         for i in listado: 
@@ -175,6 +181,8 @@ class VistaAd:
             print("Organización: ", i._organizador)
             print("KM Totales: ", i._kmTotales)
             print("Precio: ", i._precio)
+        print("Pulsa INTRO cuando desees continuar!")
+        input()
 
     def solicitarFechaEvento(self):
         validado = True
@@ -199,7 +207,9 @@ class VistaAd:
             for j in i._listadoSociosApuntados:
                 print("DNI: ", j)
             print("-------------------------------------")
-    
+        print("Pulsa INTRO cuando desees continuar!")
+        input()
+
     def solicitarInfoEvento(self): 
         validado = True
         while validado: 
@@ -235,6 +245,8 @@ class VistaAd:
         sociosEvento = []
         self._controlador.creaEventos(fechaInicio, fechaMaxInscripcion, lugar, provincia, organizacion, distancia, precio, sociosEvento)
         print("Se ha añadido el Evento!")
+        print("Pulsa INTRO cuando desees continuar!")
+        input()
 
     def solicitarAnnoContrCuotas(self):
         validado = True
@@ -259,9 +271,13 @@ class VistaAd:
                     print("{:<12} {:<7} {:<20} {:<8} {:<15} {:<10} {:<10}".format(dni, datos[0], club.getSocio(datos[1])._nombreCompleto, "Si" , datos[3], datos[4], datos[5]))
         except:
             print("No hay datos de dicho año")
+        print("Pulsa INTRO cuando desees continuar!")
+        input()
 
     def muestraMensaje(self, string):
         print(string)
+        print("Pulsa INTRO cuando desees continuar!")
+        input()
 
     def solicitarPagoCuota(self):
         validado = True
@@ -287,6 +303,8 @@ class VistaAd:
             print("Debe pagar: ", self._controlador.cantidadAPagar(dni))
             print("Pago realizado!")
             self._controlador.realizarPagoCuota(dni)
+        print("Pulsa INTRO cuando desees continuar!")
+        input()
 
 
 

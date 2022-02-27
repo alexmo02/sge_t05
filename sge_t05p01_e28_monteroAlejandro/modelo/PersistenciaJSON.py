@@ -12,7 +12,6 @@ class Persistencia:
         
         try:
             for i in dictPrep["_bicicletas"]:
-                print( dictPrep["_bicicletas"])
                 lista=[]
                 try:
                     for e in i._listaReparaciones:

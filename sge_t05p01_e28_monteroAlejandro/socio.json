@@ -74,5 +74,31 @@
       "Hijos": [],
       "Padres": []
     }
+  },
+  {
+    "_usuarioAsociado": "44444444D",
+    "_nombreCompleto": "usuario4",
+    "_direccion": "dir4",
+    "_telefono": "2342432",
+    "_correoElectronico": "asdasdf",
+    "_bicicletas": [],
+    "_familia": {
+      "Pareja": null,
+      "Hijos": [],
+      "Padres": []
+    }
+  },
+  {
+    "_usuarioAsociado": "A",
+    "_nombreCompleto": "usuarioA",
+    "_direccion": "dira",
+    "_telefono": "23232",
+    "_correoElectronico": "asdas",
+    "_bicicletas": [],
+    "_familia": {
+      "Pareja": null,
+      "Hijos": [],
+      "Padres": []
+    }
   }
 ]

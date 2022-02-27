@@ -15,22 +15,34 @@ class ControladorAd:
         self.inicio(usuario, contrasenna)
     
     def inicio(self, usuario, contrasenna):
-        '''Prueba.cargarUsuarios(self._club)
-        Prueba.cargarSocios(self._club)
-        Prueba.cargarControlCuotas(self._club)
-        Prueba.cargarEventos(self._club)'''
         Club.leerJSONUsuarios(self._club)
         Club.leerJSONSocios(self._club)
         Club.leerJSONEventos(self._club)
       
         respuesta = self._club.verificarUsuarioAd(usuario, contrasenna)
+        respuesta = self.verificarUltimoAcceso(usuario, contrasenna)
+
         if(respuesta == 1):
+            fechaAcceso = self._club._diccUsuarios[usuario]._ultimoAcceso
             while True: 
-                self._vistaAd.mostrarMenu(usuario)
+                self._vistaAd.mostrarMenu(usuario, fechaAcceso)
         elif(respuesta == 2): 
             self._vistaAd.mostrarError("El usuario y la contraseña no existen")
+        elif(respuesta == 3):
+            self._vistaAd.mostrarError("Han pasado más de 30 días desde tu último acceso y no tienes la cuota pagada. Contacta con tu administrador!")
         else:
             self._vistaAd.mostrarError("No tienes los permisos para acceder")
+
+    def verificarUltimoAcceso(self, usuario, contrasenna):
+        today = datetime.strptime( datetime.today().strftime('%d/%m/%Y') ,"%d/%m/%Y")
+        ultimoAcceso = datetime.strptime(self._club._diccUsuarios[usuario]._ultimoAcceso, "%d/%m/%Y")
+        tiempoDiscurrido = today - ultimoAcceso 
+        if tiempoDiscurrido.days > 30:
+            if(self._club._diccUsuarios[usuario]._corriente_pago):
+                return 1
+            else: return 3
+        else:
+            return 1
 
     def listarSocios(self):
         lista = []
@@ -39,7 +51,6 @@ class ControladorAd:
             lista.append(valor._nombreCompleto)
         self._vistaAd.muestraSocios(lista)
 
-    #esta comprobación en el modelo
     def comprobarDni(self, dni):
         for clave in self._club._diccSocios:
             if clave==dni:
@@ -47,62 +58,126 @@ class ControladorAd:
         return True
 
     def crearSocioUsuario(self, dni, contrasenna, admin, nombreCompleto, direccion, telefono, correo):
-        self._club._diccUsuarios[dni] = Usuario (dni, contrasenna, datetime.today().strftime('%Y/%m/%d'), admin, True)
-        self._club._diccSocios[dni] = Socio (dni, nombreCompleto, direccion, telefono, correo)
-
+        self._club._diccUsuarios[dni] = Usuario (dni, contrasenna, datetime.today().strftime('%d/%m/%Y'), admin, True)
+        self._club._diccSocios[dni] = Socio (self._club.getUsuario(dni), nombreCompleto, direccion, telefono, correo)
         self.agregarControlCuotas(dni)
 
     def agregarControlCuotas(self, dni):
-        (self._club._controlCuotas["2022"])[dni]=[2022, dni, self._club.getUsuario(dni)._corriente_pago, 15, 0, datetime.today().strftime('%Y/%m/%d')]
+        anno = datetime.today().strftime('%Y')
+        mes = int(datetime.today().strftime('%m'))
+        if mes < 7:
+            (self._club._controlCuotas[str(anno)])[dni]=[int(anno), dni, self._club.getUsuario(dni)._corriente_pago, 15, 0, datetime.today().strftime('%Y/%m/%d')]
+        else:
+            (self._club._controlCuotas[str(anno)])[dni]=[int(anno), dni, self._club.getUsuario(dni)._corriente_pago, 8, 0, datetime.today().strftime('%Y/%m/%d')]
 
 
     def agregarFamilia(self, opcion, dni):
         if (opcion == 1):
             #comprobamos si este usuario ya tiene una pareja asignada
-            if(self._club._diccSocios[dni]._familia["Pareja"]==None and len(self._club._diccSocios[dni]._familia["Padres"])==0):
+            if (self._club._diccSocios[dni]._familia["Pareja"]==None and len(self._club._diccSocios[dni]._familia["Padres"])==0):
+
                 self._vistaAd.insertarPareja(dni)
             else:
                 return 1
         elif (opcion == 2):
-            if ( self._club._diccSocios[dni]._familia["Pareja"]==None): return 2
-            
-            elif(len(self._club._diccSocios[dni]._familia["Hijos"])<=1  and len(self._club._diccSocios[dni]._familia["Padres"])==0):
+            if (len(self._club._diccSocios[dni]._familia["Padres"])==0): 
                 self._vistaAd.insertarHijo(dni)
-            else: return 3
-        elif (opcion ==3):
-            if (self._club._diccSocios[dni]._familia["Pareja"]==None and len(self._club._diccSocios[dni]._familia["Padres"])==0):
+            else: 
+                return 3
+        elif (opcion == 3):
+            if (self._club._diccSocios[dni]._familia["Pareja"]==None and len(self._club._diccSocios[dni]._familia["Padres"]) < 2):
                 self._vistaAd.insertarPadres(dni)
             else:
                 return 4
     
     def agregarPareja(self, dniSocio, dniPareja):
-        self._club._diccSocios[dniSocio]._familia["Pareja"]=self._club._diccSocios[dniPareja]
-        self._club._diccSocios[dniPareja]._familia["Pareja"]=self._club._diccSocios[dniSocio]
+        if(self._club._diccSocios[dniPareja]._familia["Pareja"]==None):
+            self._club._diccSocios[dniSocio]._familia["Pareja"]=dniPareja
+            self._club._diccSocios[dniPareja]._familia["Pareja"]=dniSocio
 
-        self.actualizarCuotasAgregarPareja(dniSocio, dniPareja)
+            if (len(self._club._diccSocios[dniSocio]._familia["Hijos"])>0):
+                
+                for i in self._club._diccSocios[dniSocio]._familia["Hijos"]:
+                    self._club._diccSocios[dniPareja]._familia["Hijos"].append(i)
+                
+                listado = [dniSocio, dniPareja]
+
+                for i in self._club._diccSocios[dniSocio]._familia["Hijos"]:
+                    self._club._diccSocios[i]._familia["Padres"]=[]
+                    self._club._diccSocios[i]._familia["Padres"].append(dniPareja)
+                    listado.append(i)
+                self.actualizarCuotasPadresHijos(listado)
+
+            if (len(self._club._diccSocios[dniPareja]._familia["Hijos"])>0):
+                self._club._diccSocios[dniSocio]._familia["Hijos"] = self._club._diccSocios[dniPareja]._familia["Hijos"]
+                listado = [dniSocio, dniPareja]
+
+                for i in self._club._diccSocios[dniPareja]._familia["Hijos"]:
+                    self._club._diccSocios[i]._familia["Padres"].append(dniSocio)
+                    listado.append(i)
+                self.actualizarCuotasPadresHijos(listado)
+            else: 
+                self.actualizarCuotasAgregarPareja(dniSocio, dniPareja)
+        else:
+            print("Este usuario ya tiene una pareja")
+
+    def actualizarCuotasPadresHijos(self, listado):
+        for i in listado:
+            self._club._controlCuotas[str(datetime.today().strftime('%Y'))][i][4]=30
+            self._club._controlCuotas[str(datetime.today().strftime('%Y'))][i][3]=15*0.7
 
     def agregarHijo(self, dniSocio, dniHijo):
-        self._club._diccSocios[dniSocio]._familia["Hijos"].append(self._club._diccSocios[dniHijo])
-        dniPareja=self._club._diccSocios[dniSocio]._familia["Pareja"]._usuarioAsociado._dni
-        self._club._diccSocios[dniPareja]._familia["Hijos"].append(self._club._diccSocios[dniHijo])
+        dniPareja = self._club.getSocio(self._club._diccSocios[dniSocio]._familia["Pareja"])._usuarioAsociado._dni
+        if(dniPareja == dniHijo): 
+            print("No puedes asignar a tu pareja como tu hijo")
+        else:
+            self._club._diccSocios[dniSocio]._familia["Hijos"].append(dniHijo)
+            try: 
+                dniPareja = self._club.getSocio(self._club._diccSocios[dniSocio]._familia["Pareja"])._usuarioAsociado._dni
+                self._club._diccSocios[dniPareja]._familia["Hijos"].append(dniHijo)
 
-        self._club._diccSocios[dniHijo]._familia["Padres"]=(self._club._diccSocios[dniSocio], self._club._diccSocios[dniPareja])
-        self.actualizarCuotasAgregarHijos(dniSocio, dniPareja, dniHijo)
+                self._club._diccSocios[dniHijo]._familia["Padres"] = [dniSocio, dniPareja]
+                self.actualizarCuotasAgregarHijos(dniSocio, dniPareja, dniHijo)
+            except: 
+                self._club._diccSocios[dniHijo]._familia["Padres"] = [dniSocio]
+                self.actualizarcuotasAgregarHijo(dniSocio, dniHijo)
+
+        '''self._club._diccSocios[dniSocio]._familia["Hijos"].append(dniHijo)
+        try: 
+            dniPareja = self._club.getSocio(self._club._diccSocios[dniSocio]._familia["Pareja"])._usuarioAsociado._dni
+            self._club._diccSocios[dniPareja]._familia["Hijos"].append(dniHijo)
+
+            self._club._diccSocios[dniHijo]._familia["Padres"] = [dniSocio, dniPareja]
+            self.actualizarCuotasAgregarHijos(dniSocio, dniPareja, dniHijo)
+        except: 
+            self._club._diccSocios[dniHijo]._familia["Padres"] = [dniSocio]
+            self.actualizarcuotasAgregarHijo(dniSocio, dniHijo)'''
+
+    def comprobarPadre(self, dniPareja, dniUsuario):
+        if (len(self._club._diccSocios[dniUsuario]._familia["Padres"])==1 and self._club._diccSocios[dniPareja]._familia["Pareja"]!= None):
+            return True
+        else:
+            return False
 
     def agregarPadres(self, dniHijo, dniSocio):
-        dniPareja=self._club._diccSocios[dniSocio]._familia["Pareja"]._usuarioAsociado._dni
-        self._club._diccSocios[dniSocio]._familia["Hijos"].append(self._club._diccSocios[dniHijo])
-        self._club._diccSocios[dniPareja]._familia["Hijos".append(self._club._diccSocios[dniHijo])]
-
-        self._club._diccSocios[dniHijo]._familia["Padres"]=(self._club._diccSocios[dniSocio], self._club._diccSocios[dniPareja])
-        self.actualizarCuotasAgregarHijos(dniSocio, dniPareja, dniHijo)
+        try: 
+            dniPareja = self._club.getSocio(self._club._diccSocios[dniSocio]._familia["Pareja"])._usuarioAsociado._dni
+            self._club._diccSocios[dniSocio]._familia["Hijos"].append(dniHijo)
+            self._club._diccSocios[dniPareja]._familia["Hijos"].append(dniHijo)
+            #buscamos al hijo y le asignamos los padres
+            self._club._diccSocios[dniHijo]._familia["Padres"]=(dniSocio, dniPareja)
+            self.actualizarCuotasAgregarHijos(dniSocio, dniPareja, dniHijo)
+        except: 
+            self._club._diccSocios[dniSocio]._familia["Hijos"].append(dniHijo)
+            self._club._diccSocios[dniHijo]._familia["Padres"].append(dniSocio)
+            self.actualizarcuotasAgregarHijo(dniSocio, dniHijo)
 
     def comprobarPadres(self, dniHijo):
-        if(len(self._club._diccSocios[dniHijo]._familia["Padres"])==0): return False
+        if(len(self._club._diccSocios[dniHijo]._familia["Padres"])<2): return False
         else: return True 
 
     def comprobarPareja(self, dni):
-        if(len(self._club._diccSocios[dni]._familia["Padres"])==None): return True
+        if(self._club._diccSocios[dni]._familia["Pareja"])==None: return True
         else: return False 
     
     def comprobarHijos(self, dni): 
@@ -122,6 +197,12 @@ class ControladorAd:
         self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniPareja][3]=15*0,7
         self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniHijo][4]=30
         self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniHijo][3]=15*0,7
+    
+    def actualizarcuotasAgregarHijo(self, dniSocio, dnihijo):
+        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniSocio][4]=15
+        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniSocio][3]=15*0.85
+        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dnihijo][4]=15
+        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dnihijo][3]=15*0.85
 
     def obtenerEventos(self):
         for i in self._club._listaEventos:
@@ -159,9 +240,15 @@ class ControladorAd:
         anno = int(datetime.today().strftime('%Y'))
         controlCuota = self._club._controlCuotas[str(anno-1)]
         self._club._controlCuotas[str(anno)] = controlCuota
+
         for dni in self._club._controlCuotas[str(anno)]:
-            self._club._controlCuotas[str(anno)][dni][2] = False
+            self._club._controlCuotas[str(anno)][dni][2]=False
+            self._club._controlCuotas[str(anno)][dni][3]=15*(100-self._club._controlCuotas[str(anno)][dni][4])/100
+            self._club._controlCuotas[str(anno)][dni][5]=""
     
+        for i in self._club._diccUsuarios:
+            self._club._diccUsuarios[i]._corriente_pago=False
+
     def comprobacionPagado(self, dni):
         anno = str(datetime.today().strftime('%Y'))
         if self._club._controlCuotas[anno][dni][2]:
@@ -176,9 +263,11 @@ class ControladorAd:
         anno = str(datetime.today().strftime('%Y'))
         self._club.getUsuario(dni)._corriente_pago = True
         self._club._controlCuotas[anno][dni][2] = self._club.getUsuario(dni)._corriente_pago
+        self._club._controlCuotas[anno][dni][5]=datetime.today().strftime('%d/%m/%Y')
 
-    def controlOpciones(self,opc):
+    def controlOpciones(self,opc,usuario):
         if (opc == 0):
+            self._club._diccUsuarios[usuario]._ultimoAcceso=datetime.today().strftime('%d/%m/%Y')
             Persistencia.guardarDatos(self._club)
             self._vistaAd.salir()
         elif (opc == 1):
@@ -207,18 +296,6 @@ class ControladorAd:
                 self._vistaAd.muestraMensaje("Se ha creado el control de cuotas para ese año con los datos correspondientes")
         elif (opc == 9):
             self._vistaAd.solicitarPagoCuota()
-            
-    '''def cargarSocios(club : Club):
-        #self._listaSocios = {'11111111A' : Usuario ("admin", "C/admin", 666777888, "admin@gmail.com")}
-        #def __init__(self, usuarioAsociado: Usuario, nombreCompleto, direccion, telefono, correoElectronico, bicicletas: Bicicleta, _familia):
-        club.asignarListaSocios({'11111111A' : Socio (club.getUsuario('11111111A'), 'Alejandro Montero', 'c/direccion1', 666777888, "alejandro@gmail.com"),
-        '22222222B' : Socio (club.getUsuario('22222222B'), 'Pepito López', 'c/direccion2', 666777999, "pepito@gmail.com")})
-
-    def cargarUsuarios(club : Club):
-        listaUsuarios = Persistencia.leerJSON("carpetaJSON/usuario.json")
-        for usuario in listaUsuarios:
-
-        club.asignarListaUsuarios()'''
-
-
+        else: 
+            pass
 
