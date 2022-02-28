@@ -36,7 +36,6 @@ class Persistencia:
         return dictPrep
 
     def guardarDatos(club):
-        #USUARIOS
         listaUsuariosAux=list()
         for i in club._diccUsuarios.values():
             listaUsuariosAux.append(i.__dict__)
@@ -44,7 +43,6 @@ class Persistencia:
         Club.guardarJSONUsuarios("usuario.json", listaUsuariosAux)
         del listaUsuariosAux
 
-        #SOCIOS
         listaUsuariosAux=list()
         for e in club._diccSocios.values():
             socio=e
@@ -52,16 +50,14 @@ class Persistencia:
 
         colAux=list()
         for c in listaUsuariosAux:
-            colAux.append(Persistencia.prepararDictSocio(c)) #Looping Using List 
+            colAux.append(Persistencia.prepararDictSocio(c)) 
         Club.guardarJSONSocios("socio.json", colAux)
 
-        #CLUB
         colAux=list()
         colAux.append(Persistencia.prepararDictClub(club.__dict__))
 
         Club.guardarJSONClub("club.json", colAux )
-        
-        #EVENTOS
+
         listaUsuariosAux=list()
         for i in club._listaEventos:
             listaUsuariosAux.append(i.__dict__)

@@ -100,5 +100,31 @@
       "Hijos": [],
       "Padres": []
     }
+  },
+  {
+    "_usuarioAsociado": "B",
+    "_nombreCompleto": "usuarioB",
+    "_direccion": "dirb",
+    "_telefono": "2323",
+    "_correoElectronico": "asda",
+    "_bicicletas": [],
+    "_familia": {
+      "Pareja": "C",
+      "Hijos": [],
+      "Padres": []
+    }
+  },
+  {
+    "_usuarioAsociado": "C",
+    "_nombreCompleto": "usuarioC",
+    "_direccion": "dirc",
+    "_telefono": "23232",
+    "_correoElectronico": "adas",
+    "_bicicletas": [],
+    "_familia": {
+      "Pareja": "B",
+      "Hijos": [],
+      "Padres": []
+    }
   }
 ]

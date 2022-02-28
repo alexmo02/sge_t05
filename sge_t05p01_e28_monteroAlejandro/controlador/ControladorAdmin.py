@@ -1,5 +1,4 @@
 from re import S
-from modelo.Prueba import Prueba
 from modelo.UsuarioModulo import Usuario
 from vista.VistaAdmin import VistaAd
 from modelo.ClubModulo import Club
@@ -126,23 +125,11 @@ class ControladorAd:
             self._club._controlCuotas[str(datetime.today().strftime('%Y'))][i][4]=30
             self._club._controlCuotas[str(datetime.today().strftime('%Y'))][i][3]=15*0.7
 
+    def obtenerDniPareja(self, dniSocio):
+        return self._club._diccSocios[dniSocio]._familia["Pareja"]
+
     def agregarHijo(self, dniSocio, dniHijo):
-        dniPareja = self._club.getSocio(self._club._diccSocios[dniSocio]._familia["Pareja"])._usuarioAsociado._dni
-        if(dniPareja == dniHijo): 
-            print("No puedes asignar a tu pareja como tu hijo")
-        else:
-            self._club._diccSocios[dniSocio]._familia["Hijos"].append(dniHijo)
-            try: 
-                dniPareja = self._club.getSocio(self._club._diccSocios[dniSocio]._familia["Pareja"])._usuarioAsociado._dni
-                self._club._diccSocios[dniPareja]._familia["Hijos"].append(dniHijo)
-
-                self._club._diccSocios[dniHijo]._familia["Padres"] = [dniSocio, dniPareja]
-                self.actualizarCuotasAgregarHijos(dniSocio, dniPareja, dniHijo)
-            except: 
-                self._club._diccSocios[dniHijo]._familia["Padres"] = [dniSocio]
-                self.actualizarcuotasAgregarHijo(dniSocio, dniHijo)
-
-        '''self._club._diccSocios[dniSocio]._familia["Hijos"].append(dniHijo)
+        self._club._diccSocios[dniSocio]._familia["Hijos"].append(dniHijo)
         try: 
             dniPareja = self._club.getSocio(self._club._diccSocios[dniSocio]._familia["Pareja"])._usuarioAsociado._dni
             self._club._diccSocios[dniPareja]._familia["Hijos"].append(dniHijo)
@@ -151,7 +138,7 @@ class ControladorAd:
             self.actualizarCuotasAgregarHijos(dniSocio, dniPareja, dniHijo)
         except: 
             self._club._diccSocios[dniHijo]._familia["Padres"] = [dniSocio]
-            self.actualizarcuotasAgregarHijo(dniSocio, dniHijo)'''
+            self.actualizarcuotasAgregarHijo(dniSocio, dniHijo)
 
     def comprobarPadre(self, dniPareja, dniUsuario):
         if (len(self._club._diccSocios[dniUsuario]._familia["Padres"])==1 and self._club._diccSocios[dniPareja]._familia["Pareja"]!= None):
@@ -186,17 +173,17 @@ class ControladorAd:
 
     def actualizarCuotasAgregarPareja(self, dniSocio, dniPareja):
         self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniSocio][4]=10
-        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniSocio][3]=15*0,9
+        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniSocio][3]=15*0.9
         self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniPareja][4]=10
-        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniPareja][3]=15*0,9
+        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniPareja][3]=15*0.9
 
     def actualizarCuotasAgregarHijos(self, dniSocio, dniPareja, dniHijo): 
         self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniSocio][4]=30
-        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniSocio][3]=15*0,7 
+        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniSocio][3]=15*0.7 
         self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniPareja][4]=30
-        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniPareja][3]=15*0,7
+        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniPareja][3]=15*0.7
         self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniHijo][4]=30
-        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniHijo][3]=15*0,7
+        self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniHijo][3]=15*0.7
     
     def actualizarcuotasAgregarHijo(self, dniSocio, dnihijo):
         self._club._controlCuotas[str(datetime.today().strftime('%Y'))][dniSocio][4]=15

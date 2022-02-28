@@ -140,17 +140,27 @@ class VistaAd:
 
     def insertarHijo(self, dniSocio):
         validado = True
+        try: 
+            dniPareja = self._controlador.obtenerDniPareja(dniSocio)
+        except:
+            dniPareja =""
         while validado: 
             print("Introduce el DNI del hijo/a (tiene que ser socio/a del club previamente): ")
             dniHijo = input()
             validado = self._controlador.comprobarDni(dniHijo)
-            if (dniHijo==dniSocio):
-                print("No puedes ser tu propio hijo")
+            try:
+                if (dniHijo==dniSocio):
+                    print("No puedes ser tu propio hijo")
+                    validado = True
+                elif (self._controlador.comprobarPadres(dniHijo)):
+                    print("Ya tienes unos padres asociados")
+                elif (dniHijo == dniPareja):
+                    print("No puedes asignar a tu pareja como hijo")
+                    validado = True
+                else:
+                    validado=False
+            except:
                 validado = True
-            elif (self._controlador.comprobarPadres(dniHijo)):
-                print("Ya tienes unos padres asociados")
-            if not validado: 
-                validado = False
         self._controlador.agregarHijo(dniSocio, dniHijo)
         
 

@@ -2,7 +2,7 @@
   {
     "_dni": "11111111A",
     "_contrasenna": "admin",
-    "_ultimoAcceso": "27/02/2022",
+    "_ultimoAcceso": "28/02/2022",
     "_es_admin": true,
     "_corriente_pago": true
   },
@@ -31,6 +31,20 @@
     "_dni": "A",
     "_contrasenna": "a",
     "_ultimoAcceso": "27/02/2022",
+    "_es_admin": false,
+    "_corriente_pago": true
+  },
+  {
+    "_dni": "B",
+    "_contrasenna": "b",
+    "_ultimoAcceso": "28/02/2022",
+    "_es_admin": false,
+    "_corriente_pago": true
+  },
+  {
+    "_dni": "C",
+    "_contrasenna": "c",
+    "_ultimoAcceso": "28/02/2022",
     "_es_admin": false,
     "_corriente_pago": true
   }
