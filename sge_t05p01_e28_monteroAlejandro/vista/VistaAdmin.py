@@ -118,7 +118,7 @@ class VistaAd:
             if respuesta==2:
                 print("Primero debes asignar una pareja a este cliente")
             if respuesta==3:
-                print("El usuario ya tiene dos hijos asociados")
+                print("No puedes agregar hijos a este usuario")
             if respuesta==4:
                 print("Este usuario ya tiene pareja/padres asignados")
         else:print("Introduce un número entero entre 0 y 9.")

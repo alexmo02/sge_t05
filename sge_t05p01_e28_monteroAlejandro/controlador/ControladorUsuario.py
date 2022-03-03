@@ -31,6 +31,10 @@ class ControladorUs:
                 self._vistaUs.mostrarMenu(usuario, fecha)
         elif(resultado==2):
             self._vistaUs.mostrarError("El usuario o la contraseña no existen")
+        elif(resultado==3):
+            self._vistaUs.mostrarError("Han pasado más de 30 días de tu acceso y tienes la cuota sin pagar, contacta con el administrador!")
+        elif(resultado==4):
+            self._vistaUs.mostrarError("No has realizado el pago")
         else:
             self._vistaUs.mostrarError("Este usuario no tiene permiso para acceder")
 

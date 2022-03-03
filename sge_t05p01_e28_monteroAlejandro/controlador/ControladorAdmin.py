@@ -19,7 +19,7 @@ class ControladorAd:
         Club.leerJSONEventos(self._club)
       
         respuesta = self._club.verificarUsuarioAd(usuario, contrasenna)
-        respuesta = self.verificarUltimoAcceso(usuario, contrasenna)
+        #respuesta = self.verificarUltimoAcceso(usuario, contrasenna)
 
         if(respuesta == 1):
             fechaAcceso = self._club._diccUsuarios[usuario]._ultimoAcceso
@@ -32,7 +32,7 @@ class ControladorAd:
         else:
             self._vistaAd.mostrarError("No tienes los permisos para acceder")
 
-    def verificarUltimoAcceso(self, usuario, contrasenna):
+    '''def verificarUltimoAcceso(self, usuario, contrasenna):
         today = datetime.strptime( datetime.today().strftime('%d/%m/%Y') ,"%d/%m/%Y")
         ultimoAcceso = datetime.strptime(self._club._diccUsuarios[usuario]._ultimoAcceso, "%d/%m/%Y")
         tiempoDiscurrido = today - ultimoAcceso 
@@ -41,7 +41,7 @@ class ControladorAd:
                 return 1
             else: return 3
         else:
-            return 1
+            return 1'''
 
     def listarSocios(self):
         lista = []
