@@ -11,7 +11,7 @@
     "_contrasenna": "usuario1",
     "_ultimoAcceso": "03/03/2022",
     "_es_admin": false,
-    "_corriente_pago": false
+    "_corriente_pago": true
   },
   {
     "_dni": "33333333C",
@@ -23,7 +23,7 @@
   {
     "_dni": "44444444D",
     "_contrasenna": "4",
-    "_ultimoAcceso": "27/02/2022",
+    "_ultimoAcceso": "03/03/2022",
     "_es_admin": false,
     "_corriente_pago": true
   },
@@ -44,7 +44,7 @@
   {
     "_dni": "C",
     "_contrasenna": "c",
-    "_ultimoAcceso": "28/02/2022",
+    "_ultimoAcceso": "03/03/2022",
     "_es_admin": false,
     "_corriente_pago": true
   }

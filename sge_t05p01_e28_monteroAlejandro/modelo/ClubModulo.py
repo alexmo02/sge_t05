@@ -75,9 +75,9 @@ class Club:
                     if diferencia.days<30:
                         if(self._diccUsuarios[usuario._dni]._corriente_pago):
                             return 1
-                        else: return 3
+                        else: return 4
                     else:
-                        return 1
+                        return 3
                 else:
                     return 2
             else: 
